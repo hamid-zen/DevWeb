@@ -176,14 +176,14 @@ let handleRadios = function () {
 
 let handleHeader = function f() {
     let tds = document.querySelectorAll("td");
-    tds.forEach(function (td) {
-        td.addEventListener("click", function (e) {
+    tds.forEach(function(td) {
+        td.addEventListener("click", function(e) {
             let country_name = e.target.id;
             if (country_name) {
                 fetch('get_country_features.php', {
-                    method: 'POST',
-                    body: new URLSearchParams("country_name=" + country_name),
-                })
+                        method: 'POST',
+                        body: new URLSearchParams("country_name=" + country_name),
+                    })
                     .then((response) => response.json())
                     .then((country) => {
                         console.log('Success:', country);
