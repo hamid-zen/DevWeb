@@ -128,7 +128,7 @@ let handleRadios = function () {
         radio.addEventListener('click', (e) => {
             // On recupere le choix
             let choixAffichage = e.target.value;
-
+            console.log(choixAffichage)
             // Si le choix est d'afficher les noms il suffit d'afficher les id pour chaque case
             if (choixAffichage === "noms") {
                 document.querySelectorAll("td").forEach(cell => {
@@ -162,9 +162,18 @@ let handleRadios = function () {
                             let drapeauPays = element[1]
 
                             if (paysCellule === nomPays) {
-                                // Alors a la place du texte html a l'interieur on affiche l'image
-                                cell.innerHTML = "<img src=\""+ drapeauPays +"\" alt=\"" + paysCellule + "\" />"
-                                console.log(cell.outerHTML)
+                                // On cree une nouvelle Image
+                                let newImage = document.createElement("img")
+
+                                // On met a jour ses att
+                                newImage.src = drapeauPays;
+                                newImage.style.width = "30px"
+                                newImage.style.height = "30px"
+
+                                // On y place l'image dans le td
+                                cell.innerHTML=""
+                                cell.appendChild(newImage)
+
                             }
                         });
                     });
@@ -180,7 +189,7 @@ let handleHeader = function f() {
         td.addEventListener("click", function(e) {
             let country_name = e.target.id;
             if (country_name) {
-                fetch('get_country_features.php', {
+                fetch('country_features.php', {
                         method: 'POST',
                         body: new URLSearchParams("country_name=" + country_name),
                     })
@@ -188,8 +197,10 @@ let handleHeader = function f() {
                     .then((country) => {
                         console.log('Success:', country);
                         // Q8 clic sur cellule
-                        // A COMPLETER <---
-                        // --> A COMPLETER
+                        // On travaille sur le div de classe header
+                        let div = document.querySelector(".header")
+                        div.innerText=country_name+"\n life expectancy : "+((country['expectancy']===null) ? "?" : country['expectancy'])+" | government : "+((country['government']===null) ? "?" : country['government'])
+
                         return country;
                     })
                     .catch((error) => {
