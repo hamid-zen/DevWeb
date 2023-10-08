@@ -11,7 +11,32 @@ et chacune de ses propriétés correspond au nom d'un champ et à sa valeur dans
 export function parseCSV(données, séparateur_lignes, séparateur_colonnes) {
     const csv = [];
 
-    // A COMPLETER
+    // On commence par recuperer le tableau des lignes
+    let lignes = données.split(séparateur_lignes)
+
+    // On recupere le nom des colonnes
+    let colonnes = lignes[0].split(séparateur_colonnes)
+    
+    for (let i = 1; i < lignes.length; i++) {
+        // On recupere les infos de la ligne actuelle
+        const dataLigne = lignes[i].split(séparateur_colonnes);
+        
+        // On cree un nouvel objet
+        let newObject = {}
+
+        // On itere sur ces infos pour remplire l'objet
+        for (let j = 0; j < dataLigne.length; j++) {
+
+            const valeur = dataLigne[j];
+            const nomPropriete = colonnes[j];
+
+            newObject[nomPropriete] = (!isNaN(valeur) && valeur !== "") ? parseInt(valeur) : valeur
+
+        }
+        
+        // Maintenant qu'on a un objet on l'ajoute au tableau
+        csv.push(newObject)
+    }
 
     return csv;
 };

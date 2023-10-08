@@ -1,17 +1,38 @@
 import {
     p_températures_départementales
 }
-from "./températures_départementales.js";
+    from "./températures_départementales.js";
 
 import {
     p_températures_anjou
 }
-from "./températures_anjou.js";
+    from "./températures_anjou.js";
 
 import {
     p_communes
 }
-from "./communes.js";
+    from "./communes.js";
+
+
+// import {
+//     parseCSV
+// }
+// from "./utils.js";
+// let csvData="CDC;CHEFLIEU;REG;DEP;COM;AR;CT;TNCC;ARTMAJ;NCC;ARTMIN;NCCENR \n 0;0;84;1;1;2;8;5;(L');ABERGEMENT-CLEMENCIAT;(L);Abergement-Clémenciat \n 0;1;84;1;72;2;7;0;;CEYZERIAT;;Ceyzériat"
+// console.log(parseCSV(csvData, '\n', ';'))
+
+// import { p_régions } from "./régions.js";
+// console.log(p_régions)
+
+// import { p_départements } from "./départements.js";
+// console.log(p_départements)
+
+// console.log(p_températures_anjou)
+
+// import { extraireCommunes } from "./communes.js";
+// console.log(extraireCommunes([], 52, 3))
+
+// console.log(p_communes(52))
 
 /*
  Promesse produisant le graphique des températures moyennes quotidiennes sur 
@@ -89,7 +110,31 @@ Le graphique est à insérer dans le conteneur de classe "températures_anjou".
  */
 p_températures_anjou
     .then(relevés => {
-        // A COMPLETER
+        // Calcul de tmin et tmax
+        let Tmin = Math.min(...Object.entries(relevés)
+            .filter(e => e[1].classe === "Minimales")
+            .map(e => e[1].température)
+        )
+
+        let Tmax = Math.max(...Object.entries(relevés)
+            .filter(e => e[1].classe === "Maximales")
+            .map(e => e[1].température)
+        )
+
+        // marques du graphique
+        let marques = [Plot.ruleY([Tmin - 5, Tmax + 5]), Plot.dot(relevés, { x: "date", y: "température", stroke: "classe" })];
+
+        // tracé
+        const plot = Plot.plot({
+            title: "Températures mensuelles angevines en 2022",
+            color: { legend: true },
+            marks: marques
+        });
+
+        console.log(plot)
+        // affichage
+        const div = document.querySelector(".températures_anjou");
+        div.append(plot);
     }).catch(erreur => {
         console.error(erreur.message);
     });
@@ -116,7 +161,7 @@ de la région et formatté comme suit : "nom_région/nom_département/nom_commun
 Le graphique est à insérer dans le conteneur de classe "communes".
  */
 
-document.querySelector("select").addEventListener("change", function(e) {
+document.querySelector("select").addEventListener("change", function (e) {
     let région = e.target.options[e.target.selectedIndex].value;
     if (région === "0") {
         return 0;
@@ -124,7 +169,29 @@ document.querySelector("select").addEventListener("change", function(e) {
 
     p_communes(région)
         .then(communes_région => {
-            // A COMPLETER
+            // On fait la transformation objet=>string formattée
+            let communes = communes_région.map((commune) => commune.région + "/" + commune.département + "/" + commune.nom)
+            
+            console.debug("communes", communes)
+            
+            // On initialise l'argument de plot
+            let marks = {
+                axis: null,
+                width: 800,
+                height: 10 * communes.length,
+                margin: 10,
+                marginLeft: 200,
+                marginRight: 200,
+                marks: [Plot.tree(communes, { textStroke: "white" })]
+            }
+
+            // On plot
+            let plot = Plot.plot(marks)
+            console.debug("plot", plot)
+
+            // affichage du resultat
+            const div = document.querySelector(".communes");
+            div.append(plot);
         }).catch(erreur => {
             console.error(erreur.message);
         });

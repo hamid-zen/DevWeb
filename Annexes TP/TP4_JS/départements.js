@@ -1,12 +1,12 @@
 import {
     p_fetch
 }
-from "./utils.js";
+    from "./utils.js";
 
 import {
     p_régions
 }
-from "./régions.js";
+    from "./régions.js";
 
 /* 
 Fichier XML listant les départements français.
@@ -31,9 +31,31 @@ Chaque objet a les propriétés suivantes
 - "région" : nom de la région du département (chaîne).
 */
 export const p_départements =
-    // A REMPLACER
-    Promise.resolve(Object.fromEntries(((new Array(100)).fill(0)).map((v, k) => [k, {
-        "nom": ["M&L", "N", "HP", "V"][Math.floor(4 * Math.random())],
-        "chef_lieu": "y",
-        "région": "z"
-    }])));
+    Promise.all([p_régions, p_fetch(url, 'xml')])
+        .then(reponses => {
+
+            // Objet a retourner
+            let resultat = {}
+
+            let donneesXML = reponses[1]
+
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(donneesXML, "text/xml");
+            const departementsXML = xmlDoc.querySelectorAll("département");
+
+            // Maintenant qu'on a les données de chaque departement
+            departementsXML.forEach(element => {
+
+                // On recupere le nom, cheflieu, region dans l'objet
+                let newObject = {
+                    nom: element.children[5].textContent,
+                    chef_lieu: parseInt(element.children[2].textContent),
+                    région: element.children[5].textContent
+                }
+
+                // On ajoute ce nouvel objet en tant que propriété
+                resultat[element.children[1].textContent] = newObject
+            });
+
+            return resultat;
+        })

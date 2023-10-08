@@ -1,12 +1,12 @@
 import {
     p_régions
 }
-from "./régions.js";
+    from "./régions.js";
 
 import {
     p_départements
 }
-from "./départements.js";
+    from "./départements.js";
 
 /*
 Le script communes.php fournit la liste des communes d'une région
@@ -29,9 +29,33 @@ Les blocs (tableaux) sont simplement concaténés sans transformation.
 La fonction est récursive et requête le script PHP à chaque appel 
 en renvoyant la promesse Fetch correspondante.
 */
-function extraireCommunes(communes, région, bloc) {
-    // A REMPLACER
-    return Promise.reject(new Error("extraireCommunes() à implémenter"));
+export function extraireCommunes(communes, région, bloc) {
+
+    let searchParams = new URLSearchParams()
+    searchParams.set("région", région)
+    searchParams.set("bloc", bloc)
+
+    return fetch("./communes.php", {
+        method: 'POST',
+        body: searchParams,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+        .then((reponse) => reponse.json())
+        .then(data => {
+            // Si vide alors cas d'arret
+            if (data.length === 0) {
+                return communes
+            }
+            // Sinon on concat et on refait un tour
+            else {
+                return extraireCommunes(communes.concat(data), région, bloc + 1)
+            }
+        })
+        .catch((erreur) => {
+            console.log(erreur)
+        })
 }
 
 /* 

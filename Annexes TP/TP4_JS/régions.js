@@ -20,5 +20,23 @@ Chaque objet a les propriétés suivantes :
 Les objets sont triés dans l'ordre croissant des numéros de régions.
 */
 export const p_régions =
-    // A REMPLACER
-    Promise.resolve([]);
+    p_fetch(url, 'csv').then( donnes => {
+        // On recupre le tableau d'objets
+        let tableauObj = parseCSV(donnes, "\n", ";")
+
+        // On cree le nouveau tableau avec les bonne proprietes
+        let resultat = []
+        tableauObj.forEach(objet => {
+            
+            let newObject = {
+                code: objet.REGION,
+                nom: objet.NCC
+            }
+
+            resultat.push(newObject)
+        });
+
+        // On trie selon le numero de region
+        return resultat.sort((a,b) => a-b);
+    })
+
