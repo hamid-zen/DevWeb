@@ -1,0 +1,1 @@
+{"version":1,"defects":{"ManagerTest::testSetId":8,"ManagerTest::testSetName":8,"ManagerTest::testSetSalary":8,"ManagerTest::testAddEmployee":7,"ManagerTest::testSetAge":7},"times":{"ManagerTest::testSetId":0.016,"ManagerTest::testSetName":0.001,"ManagerTest::testSetSalary":0.001,"ManagerTest::testAddEmployee":0.001,"ManagerTest::testSetAge":0.001}}
