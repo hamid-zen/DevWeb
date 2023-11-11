@@ -5,6 +5,6 @@
 <title>TP PHP - Inscription d'employés</title>
 </head>
 <body style="background-color: #ffcc00;">
-<!-- A COMPLETER -->
+    <a href="./employee_form.php">Employés</a>
 </body>
 </html>

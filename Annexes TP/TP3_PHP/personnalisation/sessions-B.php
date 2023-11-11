@@ -17,6 +17,10 @@
     </style>
 </head>
 <body>
+    <?php
+        session_start();
+        var_dump($_SESSION);
+    ?>
    <p>Contenu de la page B avec les couleurs choisies <br />
    <a href="sessions.php">Retour vers la page principale</a>
 </p>
