@@ -20,6 +20,7 @@
             <input type="submit" value="Inscrire" name="inscrire" />
         </fieldset>
     </form>
+    <a href="./accueil.php">Retour a l'accueil</a>
     <?php
     session_start();
 
