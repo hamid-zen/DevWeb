@@ -80,3 +80,38 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `cartegrise`
+--
+
+CREATE TABLE `cartegrise` (
+  `id_pers` mediumint(5) COLLATE utf8_bin NOT NULL DEFAULT 0,
+  `immat` varchar(6) COLLATE utf8_bin NOT NULL,
+  `datecarte` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `modele`
+--
+
+CREATE TABLE `modele` (
+  `id_modele` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT 0,
+  `modele` varchar(30) COLLATE utf8_bin NOT NULL,
+  `carburant` enum('essence', 'diesel', 'gpl','électrique') COLLATE utf8_bin NOT NULL DEFAULT 'essence'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Index pour la table `cartegrise`
+--
+ALTER TABLE `cartegrise`
+  ADD PRIMARY KEY (`id_pers`, `immat`);
+
+--
+-- Index pour la table `voiture`
+--
+ALTER TABLE `modele`
+  ADD PRIMARY KEY (`id_modele`);

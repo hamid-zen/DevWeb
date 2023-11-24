@@ -1,0 +1,91 @@
+cheatSheet sympa : https://cheatography.com/waleed-mohamed/cheat-sheets/php-object-oriented-programming/
+
+La syntaxe se fait comme dans java
+
+class class extends classMere implements interface {
+    const nom = valeur;
+    private/public static $var = value; // variable de classe
+    private/public $var2; // propriete
+
+    public function __construct (type args...){ // Constructeur
+        $this->prop = value;
+        ...
+    }
+
+    // Les methodes ont la forme
+    public function methode (type args...) : type retour{
+        ...
+    }
+}
+
+// L'acces au variables/methodes de classe se fait 
+classe::$var ou classe::methode() // en dehors de la classe
+self::$var ou self::methode() // a l'interieur de la classe
+
+// Pour empecher la redefinition utiliser final
+
+// Methodes magiques
+
+__construct($args...) // Constructeur
+__clone() // clonage avec $inst2 = clone $inst; sinon $inst2=$inst fait pointer inst2 sur inst
+__destruct() // destructeur
+__get($prop) // Sorte d'exception en cas de tentative d'acces a une prop non accessible 
+      // (on peut alors l'autoriser ou afficher un message)
+__set($prop, $value) // Sorte d'exception en cas de tentative de modif a une prop non accessible 
+      // (on peut alors l'autoriser ou afficher un message)
+__unset($p) // Constrole d'unset de prop
+
+// Heriatge
+le Constructeur de la superclasse s'appelle avec classeMere::__construct() 
+                                    (meme syntaxe pour les methodes de la classe mere)
+
+// Classes abstraites
+Peut contenir des methodes abstraites avec le prefixe abstract (en plus de proprietes)
+abstract class Abstraite {
+    protected $hauteur;
+    abstract function surface();
+    protected function volume() { return $this->surface()*$this->hauteur; }
+}
+
+// interface
+Ne peut conteniir de methodes non abstraites; ni de proprietes
+interface can_do_this {
+    abstract function surface();
+    abstract function volume();
+}
+
+// trait
+Alternative au classes abstraites
+trait marcher {
+    public $pattes;
+    function marche() {...}
+}
+
+trait voler {
+    public $ailes;
+    function vole() {...}
+}
+
+class cheval{
+    use marcher,nager; // adopte les methodes et prop des traits
+}
+
+// Reflexion
+// Pour les trucs "simples" (publics)
+https://cheatography.com/waleed-mohamed/cheat-sheets/php-object-oriented-programming/
+
+// Pour l'avancé
+$ref = new ReflectionClass(classname en string);
+
+// Pour get les propriétés de l'objet (meme non accessible)
+$prop = $ref->getProperties(); (retourne un tableau d'objets ReflectionProperty)
+// POur check si prop publique 
+$prop->isPublic()
+// Pour avoir la valeur d'une prop pour un objet
+$prop->getValue(objet)
+// Pour voir si objet a la methode
+$ref->hasMethod(nommethode en string);
+// Pour recuperer la methode
+$method = $ref->getMethod(nommethode en string) (retourne un ReflectionMethod)
+// Pour ensuite l'invoquer 
+$method->invoke(objet, arguments);

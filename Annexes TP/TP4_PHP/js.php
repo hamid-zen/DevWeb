@@ -17,6 +17,17 @@ function alert(string $str)
 
 function displayException(PDOException $e)
 {
-    // TODO
+    // On commence par afficher le fichier qui a throw l'exception
+    console("Fichier : ".$e->getFile());
+
+    // Ensuite la ligne
+    console("Ligne : ".$e->getLine());
+
+    // Ensuite le message
+    console($e->getMessage());
+
+    // On affiche une alerte avec le code sql
+    alert("Code SQL : ".$e->getCode());
+
 }
 ?>

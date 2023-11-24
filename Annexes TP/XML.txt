@@ -1,0 +1,45 @@
+// DomDocument
+
+// Pour creer une nouveau xml
+$dom = new DOMDocument()
+
+// Pour recuperer le contenu de l'objet vers une string
+$dom->saveXML();
+
+// Pour charger un xml
+$dom->load(fileName) puis $dom->saveXML()
+
+// Pour valider un fichier selon une dtd
+// On le charge puis $dom->validate()
+
+// Pour sauvgarder un fichier xml
+$dom->save(fileName)
+
+// Pour les creations
+https://www.php.net/manual/en/class.domdocument.php
+createElement
+appendChild
+createAttribute
+createTextNode
+
+// Pour le parcour
+getElementById
+getElementByTagName
+$node->hasAttributes()
+$node->attributes
+
+$node->hasChildNodes()
+
+
+// SimpleXML
+
+// Pour charger un fichier 
+simplexml_load_file
+
+// L'acces se fait par propriete
+$xml->nomDuTage (ar exmple $xml->livre)
+
+// Pour chercher a l'interieur d'un xml
+XPATh:
+https://www.w3schools.com/xml/xpath_intro.asp
+objetsimpleXML->xpath('pattern')

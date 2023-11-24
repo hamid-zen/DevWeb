@@ -1,0 +1,19 @@
+https://hackr.io/blog/php-cheat-sheet
+https://www.php.net/manual/fr/function.fopen.php
+
+// Pour ouvrir un fichier
+$file = fopen(fileName, mode);
+mode : r , r+ , w , w+ , a, a+
+
+$csv_file = fopen("employees.csv", 'a+');
+
+fputcsv($csv_file, array, ...); // ecrire dans un csv
+while (($row = fgetcsv($csv_file, separator:";")) !== FALSE)
+// Pour le fermer
+fclose(ressource)
+
+// Pour les locks
+flock($file, LOCK_EX ou LOCK_SH ou LOCK_UN)
+
+// Pour avoir les infos sur un fichier 
+classe SPLFileObject https://www.php.net/manual/fr/class.splfileobject.php
